@@ -1,0 +1,4 @@
+# logging.sh
+#!/bin/bash
+
+tail -f /var/log/proxy.log
