@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Proxy Interface</title>
+    <title>Universal Arcade</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Proxy Interface</h1>
+        <h1>Universal Arcade</h1>
         <form id="proxyForm">
             <input type="text" id="urlInput" placeholder="Enter URL">
             <button type="submit">Go</button>
