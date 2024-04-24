@@ -1,0 +1,48 @@
+# proxy_server.py
+import socket
+
+def handle_client(client_socket, target_host, target_port):
+    target_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    target_socket.connect((target_host, target_port))
+    
+    while True:
+        data = client_socket.recv(4096)
+        if not data:
+            break
+        target_socket.send(data)
+
+        data = target_socket.recv(4096)
+        if not data:
+            break
+        client_socket.send(data)
+    
+    client_socket.close()
+    target_socket.close()
+
+def proxy_server(bind_host, bind_port, target_host, target_port):
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((bind_host, bind_port))
+    server.listen(5)
+    
+    print(f'[*] Listening on {bind_host}:{bind_port}')
+
+    while True:
+        client_socket, addr = server.accept()
+        print(f'[*] Accepted connection from {addr[0]}:{addr[1]}')
+        
+        client_thread = threading.Thread(
+            target=handle_client,
+            args=(client_socket, target_host, target_port)
+        )
+        client_thread.start()
+
+def main():
+    bind_host = '127.0.0.1'
+    bind_port = 8888
+    target_host = 'www.example.com'
+    target_port = 80
+    
+    proxy_server(bind_host, bind_port, target_host, target_port)
+
+if __name__ == '__main__':
+    main()
